@@ -1,6 +1,6 @@
 {
-  "name": "@codexteam/shortcuts",
-  "version": "1.1.1",
+  "name": "quantifai-editorjs-shortcuts",
+  "version": "1.1.1-mp.2.0.1",
   "description": "Library for handling keyboard shortcuts",
   "main": "./dist/shortcuts.js",
   "scripts": {
@@ -34,9 +34,11 @@
     "babel-plugin-transform-class-properties": "^6.24.1",
     "eslint": "^5.16.0",
     "eslint-loader": "^2.1.2",
+    "keycode": "^2.2.0",
     "path": "^0.12.7",
     "uglifyjs-webpack-plugin": "^2.1.2",
     "webpack": "^4.23.1",
     "webpack-cli": "^3.1.2"
-  }
+  },
+  "dependencies": {}
 }

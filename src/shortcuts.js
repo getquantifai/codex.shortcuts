@@ -46,6 +46,8 @@ class Shortcut {
     this.commands = {};
     this.keys = {};
     this.name = shortcut.name;
+    this.previousEnteredKey = null;
+    this.sequenceStartKey = null;
 
     this.parseShortcutName(shortcut.name);
 
@@ -63,6 +65,11 @@ class Shortcut {
    * @param {String} shortcut
    */
   parseShortcutName(shortcut) {
+    const sequentialShortcuts = shortcut.split(',');
+    if (sequentialShortcuts.length === 2) {
+      this.sequenceStartKey = sequentialShortcuts[0];
+      shortcut = sequentialShortcuts[1];
+    }
     shortcut = shortcut.split('+');
     for (let key = 0; key < shortcut.length; key++) {
       shortcut[key] = shortcut[key].toUpperCase();
@@ -112,13 +119,22 @@ class Shortcut {
       }
     }
     let key,
-      allKeysPassed = true;
+      allKeysPassed = true,
+      sequenceStartKeyPressed = true;
 
     for (key in this.keys) {
       allKeysPassed = allKeysPassed && event.keyCode === keycode(key);
     }
 
-    if (allCommandsPassed && allKeysPassed) {
+    if (
+      this.sequenceStartKey &&
+      keycode(this.sequenceStartKey) !== this.previousEnteredKey
+    ) {
+      sequenceStartKeyPressed = false;
+    }
+    this.previousEnteredKey = event.keyCode;
+
+    if (allCommandsPassed && allKeysPassed && sequenceStartKeyPressed) {
       this.callback(event);
     }
   }
